@@ -67,3 +67,80 @@ function updateCartCount() {
     cartCount.textContent = cart.length;
     console.log("Cart now has", cart.length, "items");
 }
+//here is the function to open the cart modal
+function viewCart() {
+    console.log("Opening cart....");
+    const modal = document.getElementById('cart-modal');
+    modal.style.display = 'block';
+    displayCartItems();
+}
+//to close the cart modal
+function closeCart() {
+    console.log("Closing cart....");
+    const modal = document.getElementById('cart-modal');
+    modal.style.display = 'none';
+}
+//here is the function to display cart items
+function displayCartItems() {
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    console.log("Displaying cart items:", cart);
+    //if cart is empty using if statement
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="empty-cart">Your cart is empty, please add</div>';
+        cartTotal.textContent = '0.00';
+        return;
+    }
+//to calculate total and create innerHTML for each item
+let total = 0;
+let cartHTML ='';
+cart.forEach(item => {
+    const itemTotal = item.price;
+    total += itemTotal;
+
+    cartHTML += `<div class="cart-item">
+    <img src="${item.image}" alt="${item.title}">
+    <div class="cart-item-info">
+    <h4>${item.title}</h4>
+    <p>$${item.price}</p>
+    </div>
+    <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+    </div>`;
+})
+cartItems.innerHTML = cartHTML;
+cartTotal.textContent = total.toFixed(2);
+}
+//to remove item from cart
+function removeFromCart(id) {
+    console.log("Removing item:", id);
+//find the item to get it name for the alert
+const itemToRemove = cart.find(item => item.id === id);
+//remove the item from the cart array
+cart = cart.filter(item => item.id !== id);
+// now to update everything all together
+updateCartCount();
+displayCartItems();
+
+alert(`"${itemToRemove.title}" remove from the cart!`);
+}
+//for fake checkout
+function checkout() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!, please add');
+        return;
+    }
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    alert(`Order placed successfully!\nTotal: $${total.toFixed(2)}\n\nThank you for shopping with Rookie Store, we will be glad to have you back!`);
+
+    //to clear the cart
+    cart = [];
+    updateCartCount();
+    closeCart(); 
+}
+//to close modal when clicking 
+window.onclick = function(event) {
+    const modal = document.getElementById('cart-modal');
+    if (event.target === modal) {
+        closeCart();
+    }
+}
