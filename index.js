@@ -90,7 +90,10 @@ function displayCartItems() {
     console.log("Displaying cart items:", cart);
     //if cart is empty using if statement
     if (cart.length === 0) {
-        cartItems.innerHTML = '<div class="empty-cart">Your cart is empty, please add</div>';
+        cartItems.innerHTML = `
+        <div class="empty-cart">Your cart is empty, please add!</div>
+        <p class="empty-cart">Check out our products and discover our best deals</p>
+        `;
         cartTotal.textContent = '0.00';
         return;
     }
