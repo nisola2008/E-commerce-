@@ -320,9 +320,10 @@ body {
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        gap: 30px;
     } 
     header h1 {
-    font-size: 1.8rem;  
+    font-size: 1.4rem;  
     }
 
     .product-card {
