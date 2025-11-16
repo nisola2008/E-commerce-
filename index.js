@@ -32,11 +32,14 @@ function displayProducts(products) {
     let productsHTML = '';
     products.forEach(product => {
         productsHTML += `
-        <div class="product-card">
+        <div class="product-card" onclick="viewProduct(${product.id})">
         <img src="${product.image}" alt"${product.title}" class="product-image">
         <h3 class="product-title">${product.title}</h3>
         <p class="product-price">$${product.price}</p>
-        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">
+        <button class="view-product-btn" onclick="viewProduct(${product.id})">
+        View Product
+        </button>
+        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id}, '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">
         Add to Cart
         </button>
         </div>
@@ -137,10 +140,127 @@ function checkout() {
     updateCartCount();
     closeCart(); 
 }
-//to close modal when clicking 
+//to close modal when clicking
 window.onclick = function(event) {
     const modal = document.getElementById('cart-modal');
     if (event.target === modal) {
         closeCart();
+    }
+} 
+//to view each product detail
+async function viewProduct(productId) {
+    console.log("Viewing product:", productId);
+    console.log("this should open product modal");
+
+    try {
+    document.getElementById('product-detail').innerHTML = '<div class="loading">Loading the product details....</div>';
+    
+    //to open modal
+    const modal = document.getElementById('product-modal');
+    modal.style.display = 'block';
+    document.getElementById('cart-modal').style.display = 'none'
+    //to fetch the specific product details
+    const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
+    const product = await response.json();
+
+    console.log("Product details", product);
+
+    //display product details
+    displayProductDetail(product);
+    }
+    catch (error) {
+        console.error("Error loading details:", error);
+        document.getElementById('product-detail').innerHTML = '<div class="loading">Error loading product details</div>';
+
+    }
+}
+//to render stars to each product
+function renderStars(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    let starsHTML = '';
+    //for full stars
+    for (let i = 0; i < fullStars; i++) {
+     starsHTML += '<i class="fas fa-star"></i>';
+    }
+    //for half star
+    if (hasHalfStar) {
+        starsHTML += '<i class="fas fa-star-half-alt"></i>'
+    }
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    for (let i = 0; i < emptyStars; i++) {
+        starsHTML += '<i class="far fa-star"></i>';
+    }
+    return starsHTML
+}
+//function to display product details in the modal
+function displayProductDetail(product) {
+    const productDetail = document.getElementById('product-detail');
+    productDetail.innerHTML = `
+    <div class="product-detail">
+    <div class="product-detail-image">
+    <img src="${product.image}" alt="${product.title}">
+    </div>
+    <div class="product-detail-info">
+    <h1 class="product-detail-title">${product.title}</h1>
+    <div class="product-detail-price">$${product.price}</div>
+    <div class="product-detail-rating">
+    ${renderStars (product.rating.rate)}
+    <span>${product.rating.rate} (${product.rating.count} reviews)</span>
+    </div>
+    <div class="product-detail-category">
+    ${product.category}
+    </div>
+    <p class="product-detail-description">${product.description}</p>
+    <div class="product-detail-actions">
+    <button class="add-to-cart-detail" onclick="addToCartFromDetail(${product.id}, '${product.title.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">
+    Add to Cart
+    </button>
+    <button class="back-to-products" onclick="closeProduct()">
+    Back
+    </button>
+    </div>
+    </div>
+    </div>
+    `;
+}
+// Function to add to cart from product detail page
+function addToCartFromDetail(id, title, price, image) {
+    console.log("Adding to cart from detail:", title);
+    
+    // Add item to cart
+    cart.push({
+        id: id,
+        title: title,
+        price: price,
+        image: image
+    });
+    
+    // Update cart count
+    updateCartCount();
+    
+    // Show success message
+    alert(`"${title}" added to cart!`);
+    
+    // Close product modal and open cart
+    closeProduct();
+    viewCart();
+}
+
+// Function to close product modal
+function closeProduct() {
+    console.log("Closing product details...");
+    const modal = document.getElementById('product-modal');
+    modal.style.display = 'none';
+}
+window.onclick = function(event) {
+    const cartModal = document.getElementById('cart-modal');
+    const productModal = document.getElementById('product-modal');
+    if (event.target === cartModal) {
+        closeCart();
+    } 
+    if (event.target === productModal) {
+        closeProduct();
     }
 }

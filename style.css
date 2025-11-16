@@ -204,3 +204,122 @@ body {
     padding: 2rem;
     color: #7f8c8d;
 }
+/* PRODUCT MODAL STYLES */
+#product-modal .modal-content {
+    max-width: 80%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.product-detail {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.product-detail-image {
+    flex: 1;
+}
+
+.product-detail-image img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+.product-detail-info {
+    flex: 1;
+}
+
+.product-detail-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-detail-price {
+    font-size: 2rem;
+    color: #27ae60;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.product-detail-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    color: #f39c12;
+}
+
+.product-detail-category {
+    background: #3498db;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    text-transform: capitalize;
+}
+
+.product-detail-description {
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.product-detail-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.add-to-cart-detail, .back-to-products {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.add-to-cart-detail {
+    background: #3498db;
+    color: white;
+    flex: 2;
+    width: 50%;
+    transition: 0.8s ease;
+}
+.add-to-cart-detail:hover {
+    background: darkturquoise;
+}
+
+.back-to-products {
+    background: #95a5a6;
+    color: white;
+    flex: 1;
+    transition: 0.8s ease;
+    width: 50%;
+}
+.back-to-products:hover {
+      background: black;
+}
+.view-product-btn {
+    background: #9b59b6;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 50%;
+    margin-bottom: 0.5rem;
+    font-size: 0.7rem;
+}
+.view-product-btn:hover {
+    background: #8e44ad;
+}
+@media(max-width: 600px) {
+    .header {
+        display: flex;
+        justify-content: space-between;
+    }   
+    .product-card {
+        width: 90%;
+    }
+}

@@ -29,16 +29,20 @@
         <div class="modal-header">
             <h2>Your Shopping Cart</h2>
         <span class="close" onclick="closeCart()"><i class="fa-solid fa-xmark"></i></span>
-        </div>
-        <div id="cart-items">
-            <!--the cart items must go here-->
-        </div>
+        </div> 
+        <div id="cart-items"></div>
         <div class="cart-total">
             Total: $<span id="cart-total">0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
         </div>
-        <button class="checkout-btn" onclick="checkout()">Checkout</button>
     </div>
-    </div>
+        <div id="product-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeProduct()"><i class="fa-solid fa-xmark"></i></span>
+                <div id="product-detail">
+                </div>
+            </div>
     <script src="index.js"></script>
 </body>
 </html>
