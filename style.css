@@ -308,7 +308,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     width: 50%;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.9rem;
     font-size: 0.7rem;
 }
 .view-product-btn:hover {
@@ -318,8 +318,21 @@ body {
     .header {
         display: flex;
         justify-content: space-between;
-    }   
+        align-items: center;
+        width: 100%;
+    } 
+    header h1 {
+    font-size: 1.8rem;  
+    }
+
     .product-card {
-        width: 90%;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    .cart-icon {
+        font-size: 1rem;
+    }
+    #cart-count {
+        font-size: 0.9rem;
     }
 }
