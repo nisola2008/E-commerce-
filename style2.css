@@ -27,7 +27,9 @@
         font-weight: bold;
     }
     .cart-item {
-        gap: 2rem;
+        gap: 4rem;
+        display: flex;
+        justify-content: space-between;
     }
     .cart-item img {
         width: 50%;
@@ -36,6 +38,7 @@
     .cart-item-info h4 {
         margin-bottom: 0.7rem;
         text-align: center;
+        font-size: 0.6rem;
     }
     .cart-item-info p {
         text-align: center;
@@ -49,7 +52,6 @@
         text-align: center;
     }
     .product-detail-rating {
-        display: flex;
-        justify-content: center;
+        display: block;
     }
 }
