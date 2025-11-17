@@ -84,18 +84,17 @@
         white-space: nowrap;
     }
     .product-detail-title {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
     .product-detail-description {
         line-height: 1.2;
-        font-size: 0.9rem;
+        font-size: 0.6rem;
     }
     .product-detail-actions {
         display: flex;
-        gap: 1rem;
+        gap: 0.8rem;
     }
     .add-to-cart-detail, .back-to-products {
-        flex: 1;
         width: 50%;
         min-width: 0;
         white-space: nowrap;

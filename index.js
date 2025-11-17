@@ -62,7 +62,7 @@ function addToCart(id, title, price, image) {
     //to update cart count in the header
     updateCartCount();
     //to show that the product has been added
-    alert(`"${title}" added to cart!`);
+    showToast(`"${title}" added to cart!`);
 }
 //to update the cart number in header
 function updateCartCount() {
@@ -127,16 +127,16 @@ cart = cart.filter(item => item.id !== id);
 updateCartCount();
 displayCartItems();
 
-alert(`"${itemToRemove.title}" remove from the cart!`);
+showToast(`"${itemToRemove.title}" remove from the cart!`);
 }
 //for fake checkout
 function checkout() {
     if (cart.length === 0) {
-        alert('Your cart is empty!, please add');
+        showToast('Your cart is empty!, please add');
         return;
     }
     const total = cart.reduce((sum, item) => sum + item.price, 0);
-    alert(`Order placed successfully!\nTotal: $${total.toFixed(2)}\n\nThank you for shopping with Rookie Store, we will be glad to have you back!`);
+    showToast(`Order placed successfully!\nTotal: $${total.toFixed(2)}\n\nThank you for shopping with Rookie Store, we will be glad to have you back!`);
 
     //to clear the cart
     cart = [];
@@ -244,7 +244,7 @@ function addToCartFromDetail(id, title, price, image) {
     updateCartCount();
     
     // Show success message
-    alert(`"${title}" added to cart!`);
+    showToast(`"${title}" added to cart!`);
     
     // Close product modal and open cart
     closeProduct();
@@ -266,4 +266,19 @@ window.onclick = function(event) {
     if (event.target === productModal) {
         closeProduct();
     }
+}
+ function showToast(message, type = "success") {
+    console.log("Toast call function");
+    const container = document.getElementById("toast-container");
+
+    const toast = document.createElement("div");
+    toast.classList.add("toast", type);
+    toast.innerHTML = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = "fadeOut 0.5s forwards";
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
 }
