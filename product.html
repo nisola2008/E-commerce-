@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Rookies Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Rookies Store</h1>
+        <div class="cart-icon" onclick="viewCart()">
+           <i class="fa-solid fa-cart-arrow-down"></i><span id="cart-count">0</span>
+        </div>
+    </header>
+
+   <main class="main-content">
+    <div id="product-detail-page">
+        <!-- Product details will load here -->
+    </div>
+</main>
+    <!-- CART MODAL (same as index.html) -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Shopping Cart</h2>
+                <span class="close" onclick="closeCart()"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <div id="cart-items"></div>
+            <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+     <div id="toast-container"></div>
+    <script src="product.js"></script>
+</body>
+</html>

@@ -1,9 +1,11 @@
 //using array to store our shopping
-let cart =[];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 //what will happen when page loads
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Page loaded! Get products...");
     fetchProducts();
+    debugCart();
+    checkForRefresh();
 });
 //fetch products from the FakeStore API
 async function fetchProducts() {
@@ -21,6 +23,10 @@ async function fetchProducts() {
         document.getElementById('loading').textContent = 'Error loading products';
     }
 
+}
+// Add this function to index.js
+function saveCartToStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 //to display products on the page 
 function displayProducts(products) {
@@ -61,6 +67,8 @@ function addToCart(id, title, price, image) {
     });
     //to update cart count in the header
     updateCartCount();
+    saveCartToStorage();
+    debugCart();
     //to show that the product has been added
     showToast(`"${title}" added to cart!`);
 }
@@ -126,7 +134,7 @@ cart = cart.filter(item => item.id !== id);
 // now to update everything all together
 updateCartCount();
 displayCartItems();
-
+saveCartToStorage();
 showToast(`"${itemToRemove.title}" remove from the cart!`);
 }
 //for fake checkout
@@ -141,6 +149,7 @@ function checkout() {
     //to clear the cart
     cart = [];
     updateCartCount();
+    saveCartToStorage();
     closeCart(); 
 }
 //to close modal when clicking
@@ -151,31 +160,10 @@ window.onclick = function(event) {
     }
 } 
 //to view each product detail
-async function viewProduct(productId) {
-    console.log("Viewing product:", productId);
-    console.log("this should open product modal");
-
-    try {
-    document.getElementById('product-detail').innerHTML = '<div class="loading">Loading the product details....</div>';
-    
-    //to open modal
-    const modal = document.getElementById('product-modal');
-    modal.style.display = 'block';
-    document.getElementById('cart-modal').style.display = 'none'
-    //to fetch the specific product details
-    const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
-    const product = await response.json();
-
-    console.log("Product details", product);
-
-    //display product details
-    displayProductDetail(product);
-    }
-    catch (error) {
-        console.error("Error loading details:", error);
-        document.getElementById('product-detail').innerHTML = '<div class="loading">Error loading product details</div>';
-
-    }
+// Change from modal to new page
+function viewProduct(productId) {
+    // Redirect to product page with product ID
+    window.location.href = `product.html?id=${productId}`;
 }
 //to render stars to each product
 function renderStars(rating) {
@@ -281,4 +269,20 @@ window.onclick = function(event) {
         toast.style.animation = "fadeOut 0.5s forwards";
         setTimeout(() => toast.remove(), 500);
     }, 3000);
+}
+function checkForRefresh() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('refresh')) {
+        // Force reload cart from localStorage
+        cart = JSON.parse(localStorage.getItem('cart')) || [];
+        updateCartCount();
+        console.log("🔄 Cart refreshed from URL parameter");
+    }
+}
+function debugCart() {
+    console.log("=== CART DEBUG ===");
+    console.log("🛒 Current cart array:", cart);
+    console.log("💾 localStorage cart:", localStorage.getItem('cart'));
+    console.log("🔢 Cart length:", cart.length);
+    console.log("=== END DEBUG ===");
 }
