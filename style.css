@@ -31,10 +31,14 @@ body {
     cursor: pointer;
 }
 #cart-count {
-    background: yellow;
-    padding: 0.2rem 0.5rem;
+    background: #facc15;
+    color: #1a1a1a;
+    padding: 0.2rem 0.2rem;
     border-radius: 50%;
-    margin-left: 0.5rem;
+    margin-left: -0.5rem;
+    font-size: 0.7rem;
+    position: relative;
+    top: -5px;
 }
 /*styling the main content*/
 .main-content {
