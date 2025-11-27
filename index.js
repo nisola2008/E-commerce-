@@ -57,24 +57,31 @@ function displayProducts(products) {
 //add product to cart
 function addToCart(id, title, price, image) {
     console.log("Adding to cart:", title);
-
-    //let add item to the cart array
+    const existingItem = cart.find(item => item.id === id);
+    if (existingItem) {
+        existingItem.quantity = (existingItem.quantity || 1) + 1;
+        showToast(`"${title}" quantity increased to ${existingItem.quantity}!`);
+    }
+    else {
     cart.push({
         id: id,
         title: title,
         price:price,
-        image:image
+        image:image,
+        quantity: 1
     });
+    //to show that the product has been added
+    showToast(`"${title}" added to cart!`);
+}
     //to update cart count in the header
     updateCartCount();
     saveCartToStorage();
     debugCart();
-    //to show that the product has been added
-    showToast(`"${title}" added to cart!`);
 }
 //to update the cart number in header
 function updateCartCount() {
     const cartCount = document.getElementById('cart-count');
+    const totalItem = cart.reduce((total, item) => total + (item.quantity || 1), 0)
     cartCount.textContent = cart.length;
     console.log("Cart now has", cart.length, "items");
 }
@@ -109,7 +116,8 @@ function displayCartItems() {
 let total = 0;
 let cartHTML ='';
 cart.forEach(item => {
-    const itemTotal = item.price;
+    const quantity = item.quantity || 1;
+    const itemTotal = item.price * quantity;
     total += itemTotal;
 
     cartHTML += `<div class="cart-item">
@@ -118,11 +126,33 @@ cart.forEach(item => {
     <h4>${item.title}</h4>
     <p>$${item.price}</p>
     </div>
+    <div class="quantity-controls">
+    <button class="quantity-btn" onclick="decreaseQuantity(${item.id})">-</button>
+    <span class="quantity-display">${quantity}</span>
+     <button class="quantity-btn" onclick="increaseQuantity(${item.id})">+</button>
+     </div>
     <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
     </div>`;
-})
+});
 cartItems.innerHTML = cartHTML;
 cartTotal.textContent = total.toFixed(2);
+}
+//adding increasing function
+function increaseQuantity(productId) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.quantity = (item.quantity || 1) + 1;
+        displayCartItems();
+        updateCartCount();
+    }
+}
+function decreaseQuantity(productId) {
+    const item = cart.find(item => item.id === productId);
+    if (item && (item.quantity || 1) > 1) {
+        item.quantity = (item.quantity || 1) - 1;
+        displayCartItems();
+        updateCartCount();
+    }
 }
 //to remove item from cart
 function removeFromCart(id) {

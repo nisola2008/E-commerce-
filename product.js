@@ -90,27 +90,33 @@ function renderStars(rating) {
 
 // Function to add to cart from product page
 function addToCartFromProductPage(id, title, price, image) {
-    console.log("Adding to cart from product page:", title);
-    
-    // Add item to cart
+    console.log("Adding to cart:", title);
+    const existingItem = cart.find(item => item.id === id);
+    if (existingItem) {
+        existingItem.quantity = (existingItem.quantity || 1) + 1;
+        showToast(`"${title}" quantity increased to ${existingItem.quantity}!`);
+    }
+    else {
     cart.push({
         id: id,
         title: title,
-        price: price,
-        image: image
+        price:price,
+        image:image,
+        quantity: 1
     });
-    
-    // Update cart count and save to localStorage
-    updateCartCount();
-    saveCartToStorage();
-    
-    // Show success message
+    //to show that the product has been added
     showToast(`"${title}" added to cart!`);
 }
+    //to update cart count in the header
+    updateCartCount();
+    saveCartToStorage();
+    debugCart();
+}
 
-// Update cart count
+//to update the cart number in header
 function updateCartCount() {
     const cartCount = document.getElementById('cart-count');
+    const totalItem = cart.reduce((total, item) => total + (item.quantity || 1), 0)
     cartCount.textContent = cart.length;
     console.log("Cart now has", cart.length, "items");
 }
@@ -131,38 +137,61 @@ function closeCart() {
     const modal = document.getElementById('cart-modal');
     modal.style.display = 'none';
 }
-
+//here is the function to display cart items
 function displayCartItems() {
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
-    
+    console.log("Displaying cart items:", cart);
+    //if cart is empty using if statement
     if (cart.length === 0) {
         cartItems.innerHTML = `
         <div class="empty-cart">Your cart is empty, please add!</div>
-         <p class="empty-cart">Check out our products and discover our best deals</p>
+        <p class="empty-cart">Check out our products and discover our best deals</p>
         `;
         cartTotal.textContent = '0.00';
         return;
     }
-    
-    let total = 0;
-    let cartHTML = '';
-    cart.forEach(item => {
-        const itemTotal = item.price;
-        total += itemTotal;
+//to calculate total and create innerHTML for each item
+let total = 0;
+let cartHTML ='';
+cart.forEach(item => {
+    const quantity = item.quantity || 1;
+    const itemTotal = item.price * quantity;
+    total += itemTotal;
 
-        cartHTML += `<div class="cart-item">
-        <img src="${item.image}" alt="${item.title}">
-        <div class="cart-item-info">
-        <h4>${item.title}</h4>
-        <p>$${item.price}</p>
-        </div>
-        <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
-        </div>`;
-    });
-    
-    cartItems.innerHTML = cartHTML;
-    cartTotal.textContent = total.toFixed(2);
+    cartHTML += `<div class="cart-item">
+    <img src="${item.image}" alt="${item.title}">
+    <div class="cart-item-info">
+    <h4>${item.title}</h4>
+    <p>$${item.price}</p>
+    </div>
+    <div class="quantity-controls">
+    <button class="quantity-btn" onclick="decreaseQuantity(${item.id})">-</button>
+    <span class="quantity-display">${quantity}</span>
+     <button class="quantity-btn" onclick="increaseQuantity(${item.id})">+</button>
+     </div>
+    <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+    </div>`;
+});
+cartItems.innerHTML = cartHTML;
+cartTotal.textContent = total.toFixed(2);
+}
+//adding increasing function
+function increaseQuantity(productId) {
+    const item = cart.find(item => item.id === productId);
+    if (item) {
+        item.quantity = (item.quantity || 1) + 1;
+        displayCartItems();
+        updateCartCount();
+    }
+}
+function decreaseQuantity(productId) {
+    const item = cart.find(item => item.id === productId);
+    if (item && (item.quantity || 1) > 1) {
+        item.quantity = (item.quantity || 1) - 1;
+        displayCartItems();
+        updateCartCount();
+    }
 }
 
 function removeFromCart(id) {
