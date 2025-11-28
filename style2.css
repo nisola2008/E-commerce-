@@ -67,10 +67,15 @@
         width: 20%;
         height: 50px;
     }
+    .cart-item-info {
+        flex: 1;
+        min-width: 20px;
+    }
     .cart-item-info h4 {
         margin-bottom: 0.7rem;
         text-align: center;
         font-size: 0.5rem;
+    
     }
     .cart-item-info p {
         text-align: center;
@@ -96,7 +101,7 @@
         font-size: 1rem;
     }
     .quantity-controls {
-        margin-left: 1.9rem;
+        margin-left: 2rem;
     }
     .product-detail-actions {
         display: flex;
