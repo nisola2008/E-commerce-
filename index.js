@@ -24,6 +24,7 @@ async function fetchProducts() {
     }
 
 }
+// Add this function to index.js
 function saveCartToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -53,7 +54,7 @@ function displayProducts(products) {
     //display the products on the page
     productsGrid.innerHTML = productsHTML;
 }
-//add product to cart function
+//add product to cart
 function addToCart(id, title, price, image) {
     console.log("Adding to cart:", title);
     const existingItem = cart.find(item => item.id === id);
