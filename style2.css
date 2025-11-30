@@ -39,6 +39,7 @@
         justify-content: center;
         font-size: 0.6rem;
         font-weight: bold;
+        padding: 5px 8px;
     }
     .product-image {
         height: 150px;
@@ -70,7 +71,6 @@
     .cart-item-info {
         flex: 1;
         min-width: 60px;
-        overflow: hidden;
         display: flex;
         flex-direction: column;
     }
@@ -82,6 +82,10 @@
     }
     .cart-item-info p {
         text-align: center;
+    }
+    .remove-btn {
+    align-items: center;
+    display: flex;
     }
     .modal-content {
         width: 100%;
@@ -109,7 +113,7 @@
         font-size: 1rem;
     }
     .quantity-controls {
-        margin-left: 2rem;
+        margin-left: 1.8rem;
     }
     .product-detail-actions {
         display: flex;
