@@ -121,18 +121,22 @@ cart.forEach(item => {
     total += itemTotal;
 
     cartHTML += `<div class="cart-item">
+    <div class="cart-top">
     <img src="${item.image}" alt="${item.title}">
     <div class="cart-item-info">
     <h4>${item.title}</h4>
-    <p>$${item.price}</p>
     </div>
+    </div>
+    <div class="cart-buttom">
+    <p>$${item.price}</p>
     <div class="quantity-controls">
     <button class="quantity-btn" onclick="decreaseQuantity(${item.id})">-</button>
     <span class="quantity-display">${quantity}</span>
      <button class="quantity-btn" onclick="increaseQuantity(${item.id})">+</button>
      </div>
-    <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
-    </div>`;
+     <button class="remove-btn" onclick="removeFromCart(${item.id})">Remove</button>
+     </div>
+     </div>`;
 });
 cartItems.innerHTML = cartHTML;
 cartTotal.textContent = total.toFixed(2);
